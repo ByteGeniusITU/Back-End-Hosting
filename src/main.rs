@@ -12,8 +12,8 @@ async fn main() -> std::io::Result<()> {
     init_subscriber(subscriber);
 
     let address = format!("{}:{}", app_settings.address, app_settings.port);
-    let listener =
-        TcpListener::bind(&address).expect(&format!("Failed to bind address {}", address));
+    let listener = TcpListener::bind(&address)
+        .unwrap_or_else(|_| panic!("Failed to bind address {}", address));
 
     println!("Listener {}", address);
 
