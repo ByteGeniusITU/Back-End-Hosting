@@ -19,5 +19,5 @@ RUN apt-get update -y \
 
 WORKDIR /app
 COPY --from=builder /app/target/release/byte_genius_hosting byte_genius_hosting
-ENV APP_ENVIRONMENT production
+ENV APP_ENVIRONMENT=production
 ENTRYPOINT ["./byte_genius_hosting"]
