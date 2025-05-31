@@ -1,8 +1,6 @@
 name: Rust CI
 
 on:
-  push:
-    branches: [main, staging, production]
   pull_request:
     branches: [main, staging, production]
 
