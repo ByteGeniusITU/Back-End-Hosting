@@ -1,13 +1,11 @@
 name: Docker CI
 
 on:
-  workflow_run:
-    workflows: [Rust CI]
-    types: [completed]
+  push:
     branches: [staging, production]
 
 jobs:
-  build:
+  build_and_push:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
