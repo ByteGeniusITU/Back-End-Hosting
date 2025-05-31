@@ -1,0 +1,27 @@
+name: Docker CI
+
+on:
+  workflow_run:
+    workflows: [Rust CI]
+    types: [completed]
+    branches: [staging, production]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build Docker Image
+      run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.DOCKER_TAG_ENV }}-latest
+  push:
+    runs-on: ubuntu-latest
+    environment:
+      name: ${{ github.ref_name }}
+    steps:
+    - uses: actions/ckeckout@v4
+    - name: Push Docker Image
+      run: |
+          docker login -u ${{ vars.DOCKER_ACCOUNT }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.DOCKER_TAG_ENV }}-latest
