@@ -9,19 +9,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@v4
     - name: Build Docker Image
-      run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.DOCKER_TAG_ENV }}-latest
-  push:
-    runs-on: ubuntu-latest
-    environment:
-      name: ${{ github.ref_name }}
-    steps:
-    - uses: actions/ckeckout@v4
+      run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ github.ref_name }}-latest
     - name: Push Docker Image
       run: |
           docker login -u ${{ vars.DOCKER_ACCOUNT }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ env.DOCKER_TAG_ENV }}-latest
+          docker push ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ github.ref_name }}-latest
