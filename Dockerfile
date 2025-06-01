@@ -21,6 +21,7 @@ RUN apt-get update -y \
 	&& curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 \
 	&& chmod 700 get_helm.sh \
 	&& ./get_helm.sh \
+	&& helm repo add mc-charts https://itzg.github.io/minecraft-server-charts/ \
 	# Clean up
 	&& apt-get autoremove -y \
 	&& apt-get clean -y \
