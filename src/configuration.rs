@@ -20,6 +20,11 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
 
     let configuration = Config::builder()
         .add_source(File::from(configuration_directory.join(environment)))
+        .add_source(
+            config::Environment::with_prefix("APP")
+                .prefix_separator("_")
+                .separator("__"),
+        )
         .build()
         .expect("Failed to build configuration");
 
