@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - '[0-9]+.[0-9]+'
+    branches: [staging, production]
 
 jobs:
   build_and_push:
