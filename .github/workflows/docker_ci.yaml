@@ -10,9 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - name: Build Docker Image
-      run: docker build . --file Dockerfile --tag ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ github.ref_name }}-latest
-    - name: Push Docker Image
-      run: |
-          docker login -u ${{ vars.DOCKER_ACCOUNT }} -p ${{ secrets.DOCKER_HUB_TOKEN }}
-          docker push ${{ vars.DOCKER_ACCOUNT }}/${{ vars.DOCKER_REPOSITORY }}:${{ github.ref_name }}-latest
+
+    - uses: docker/login-action@3
+      name: Log in to Docker Hub
+      with:
+        username: ${{ vars.DOCKER_ACCOUNT }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - uses: docker/metadata-action@5
+      name: Docker metadata
+      with:
+        image: ${{ vars.DOCKER_ACCOUNT}}/${{ vars.DOCKER_REPOSITORY }}
+
+    - uses: docker/build-push-action@6
+      name: Build and push
+      with:
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
