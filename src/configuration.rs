@@ -19,7 +19,7 @@ pub fn get_configuration() -> Result<Settings, config::ConfigError> {
     let environment = std::env::var("APP_ENVIRONMENT").unwrap_or_else(|_| "local".into());
 
     let configuration = Config::builder()
-        .add_source(File::from(configuration_directory.join(environment)))
+        //.add_source(File::from(configuration_directory.join(environment)))
         .add_source(
             config::Environment::with_prefix("APP")
                 .prefix_separator("_")
