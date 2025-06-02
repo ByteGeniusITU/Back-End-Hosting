@@ -1,11 +1,18 @@
+use actix_web::web::Json;
 use actix_web::{HttpResponse, Responder};
+use serde;
 use std::process::Command;
 
-pub async fn deploy_chart() -> impl Responder {
+#[derive(serde::Deserialize)]
+pub struct DeployInfo {
+    username: String,
+}
+
+pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
     match Command::new("helm")
         .args([
             "install",
-            "minecraft",
+            &format!("minecraft-{}", deploy_info.username.to_lowercase()),
             "mc-charts/minecraft",
             "--set",
             "minecraftServer.eula=true,minecraftServer.Difficulty=hard",
