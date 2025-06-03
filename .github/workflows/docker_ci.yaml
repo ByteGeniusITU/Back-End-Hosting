@@ -31,3 +31,11 @@ jobs:
       with:
         push: true
         tags: ${{ steps.meta.outputs.tags }}
+    - name: Debug 
+      run: |
+        echo 'TAGS'
+        echo '${{ steps.meta.outputs.tags }}'
+        echo 'TAG RAW'
+        echo '${{tag}}'
+        echo 'SHA RAW'
+        echo '${{sha}}'
