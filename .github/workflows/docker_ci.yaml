@@ -22,6 +22,9 @@ jobs:
       name: Docker metadata
       with:
         image: ${{ vars.DOCKER_ACCOUNT}}/${{ vars.DOCKER_REPOSITORY }}
+        tags: |
+            type=sha
+            type=ref,event=tag
 
     - uses: docker/build-push-action@6
       name: Build and push
