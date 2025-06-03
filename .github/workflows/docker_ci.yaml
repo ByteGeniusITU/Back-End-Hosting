@@ -19,9 +19,10 @@ jobs:
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
     - uses: docker/metadata-action@5.7.0
+      id: meta
       name: Docker metadata
       with:
-        image: ${{ vars.DOCKER_ACCOUNT}}/${{ vars.DOCKER_REPOSITORY }}
+        images: ${{ vars.DOCKER_ACCOUNT}}/${{ vars.DOCKER_REPOSITORY }}
         tags: |
             type=sha
             type=ref,event=tag
