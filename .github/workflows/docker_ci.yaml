@@ -12,13 +12,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: docker/login-action@3
+    - uses: docker/login-action@v3.4.0
       name: Log in to Docker Hub
       with:
         username: ${{ vars.DOCKER_ACCOUNT }}
         password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
-    - uses: docker/metadata-action@5
+    - uses: docker/metadata-action@5.7.0
       name: Docker metadata
       with:
         image: ${{ vars.DOCKER_ACCOUNT}}/${{ vars.DOCKER_REPOSITORY }}
@@ -26,7 +26,7 @@ jobs:
             type=sha
             type=ref,event=tag
 
-    - uses: docker/build-push-action@6
+    - uses: docker/build-push-action@v6.18.0
       name: Build and push
       with:
         push: true
