@@ -39,3 +39,10 @@ jobs:
         repository: '${{ secrets.REPO_INFRA_URL }}'
         ref: 'main'
         token: ${{ secrets.REPO_INFRA_ACCESS_TOKEN }}
+
+    - name: Modify manifests
+      run: |
+          git config user.name "Github actions bot"
+          git config user.email "<>"
+          BRANCH=$( echo ${{ github.ref_name }} | sed -r 's/v[0-9]+.[0-9]+-//g' )
+          sed -i -r 's/v[0-9]+.[0-9]+-(staging|production)/${{github.ref_name}}/g'
