@@ -6,6 +6,8 @@ use std::process::Command;
 #[derive(serde::Deserialize)]
 pub struct DeployInfo {
     username: String,
+    cpu: u8,
+    ram: u8,
 }
 
 pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
