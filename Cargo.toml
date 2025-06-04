@@ -9,6 +9,7 @@ actix-web = "4.11.0"
 config = "0.15.11"
 secrecy = { version = "0.10.3", features = ["serde"] }
 serde = { version = "1.0.219", features = ["derive"] }
+serde-aux = "4.7.0"
 tracing = { version = "0.1.41", features = ["log"] }
 tracing-actix-web = "0.7.18"
 tracing-bunyan-formatter = "0.3.10"
