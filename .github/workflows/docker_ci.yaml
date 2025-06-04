@@ -34,8 +34,8 @@ jobs:
         tags: ${{ steps.meta.outputs.tags }}
 
     - name: Pull infra repository
-    uses: actions/checkout@v4
-    with:
-      repository: '${{ secrets.REPO_INFRA_URL }}'
-      ref: 'main'
-      token: ${{ secrets.REPO_INFRA_ACCESS_TOKEN }}
+      uses: actions/checkout@v4
+      with:
+        repository: '${{ secrets.REPO_INFRA_URL }}'
+        ref: 'main'
+        token: ${{ secrets.REPO_INFRA_ACCESS_TOKEN }}
