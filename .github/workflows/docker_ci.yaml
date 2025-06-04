@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - 'v[0-9]+.[0-9]+-*'
-    #branches: [staging, production]
+    branches: [production]
 
 jobs:
   build_and_push:
