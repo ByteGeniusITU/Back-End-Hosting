@@ -4,6 +4,7 @@ WORKDIR /app
 RUN apt update && apt install lld clang -y
 
 FROM chef AS planner
+COPY . .
 ## Compute lock-like file for our project
 RUN cargo chef prepare --recipe-path recipe.json
 
