@@ -1,7 +1,18 @@
-FROM rust:1.87.0-slim AS builder
+FROM lukemathwalker/cargo-chef:latest-rust-1.87.0-slim AS chef
 
-RUN apt update && apt install lld clang -y
 WORKDIR /app
+RUN apt update && apt install lld clang -y
+
+FROM chef AS planner
+COPY . .
+## Compute lock-like file for our project
+RUN cargo chef prepare --recipe-path recipe.json
+
+FROM chef AS builder
+COPY --from=planner /app/recipe.json recipe.json
+# Build our project dependecies
+RUN cargo chef cook --release --recipe-path recipe.json
+# If our dependecy tree stays the same, all layers should be cached
 COPY . .
 RUN cargo build --release
 
