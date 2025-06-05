@@ -16,6 +16,7 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or_else(|_| panic!("Failed to bind address {}", address));
 
     println!("Listener {}", address);
+    println!("HOLA ITU!");
 
     run(listener)?.await
 }
