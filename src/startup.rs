@@ -9,7 +9,7 @@ pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
         App::new()
             .wrap(TracingLogger::default())
             .route("/health_check", web::get().to(healt_check))
-            .route("/deploy", web::post().to(deploy_chart))
+            .route("/server", web::post().to(deploy_chart))
     })
     .listen(listener)?
     .run();

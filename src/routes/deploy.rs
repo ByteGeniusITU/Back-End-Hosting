@@ -6,6 +6,8 @@ use std::process::Command;
 #[derive(serde::Deserialize)]
 pub struct DeployInfo {
     username: String,
+    cpu: u8,
+    ram: u8,
 }
 
 pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
@@ -15,7 +17,11 @@ pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
             &format!("minecraft-{}", deploy_info.username.to_lowercase()),
             "mc-charts/minecraft",
             "--set",
-            "minecraftServer.eula=true,minecraftServer.Difficulty=hard",
+            &format!("minecraftServer.eula=true,minecraftServer.Difficulty=hard,minecraftServer.memory={}G,resources.limits.cpu={},resources.limits.memory={}G",
+                deploy_info.ram,
+                deploy_info.cpu,
+                deploy_info.ram
+            ),
         ])
         .output()
     {
