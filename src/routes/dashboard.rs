@@ -4,11 +4,11 @@ use std::process::{Command, Output};
 
 #[derive(serde::Deserialize)]
 pub struct ServerInfo {
-    username: String,
+    id: String,
 }
 
 pub async fn start(json: Json<ServerInfo>) -> impl Responder {
-    let output = execute_command(&json.username, 1);
+    let output = execute_command(&json.id, 1);
 
     if output.status.success() {
         HttpResponse::Ok()
@@ -21,7 +21,7 @@ pub async fn start(json: Json<ServerInfo>) -> impl Responder {
 }
 
 pub async fn stop(json: Json<ServerInfo>) -> impl Responder {
-    let output = execute_command(&json.username, 0);
+    let output = execute_command(&json.id, 0);
 
     if output.status.success() {
         HttpResponse::Ok().body("Servidor cerrado!")
@@ -32,12 +32,12 @@ pub async fn stop(json: Json<ServerInfo>) -> impl Responder {
     }
 }
 
-fn execute_command(username: &str, replica: u8) -> Output {
+fn execute_command(id: &str, replica: u8) -> Output {
     Command::new("kubectl")
         .args([
             "patch",
             "deployment",
-            &format!("minecraft-{}", username.to_lowercase()),
+            &format!("minecraft-{}", id.to_lowercase()),
             "-p",
             &format!("{{\"spec\":{{\"replicas\":{}}}}}", replica),
         ])
