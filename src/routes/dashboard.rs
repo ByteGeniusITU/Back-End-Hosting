@@ -102,8 +102,8 @@ pub async fn status(json: Json<ServerInfo>) -> impl Responder {
                 .unwrap(),
         };
 
-        status.cpu = status.cpu / 10;
-        status.ram = status.ram * 1.04858_f64;
+        status.cpu /= 10;
+        status.ram *= 1.04858_f64;
 
         HttpResponse::Ok().json(status)
     } else {
