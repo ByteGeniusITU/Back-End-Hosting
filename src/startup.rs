@@ -12,6 +12,7 @@ pub fn run(listener: TcpListener) -> Result<Server, std::io::Error> {
             .route("/server", web::post().to(deploy_chart))
             .route("/dashboard/start", web::get().to(start))
             .route("/dashboard/stop", web::get().to(stop))
+            .route("/dashboard/status", web::get().to(status))
     })
     .listen(listener)?
     .run();
