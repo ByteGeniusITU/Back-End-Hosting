@@ -16,6 +16,8 @@ pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
             "install",
             &format!("minecraft-{}", deploy_info.id.to_lowercase()),
             "mc-charts/minecraft",
+            "--namespace",
+            "hosting",
             "--set",
             &format!("minecraftServer.eula=true,minecraftServer.Difficulty=hard,minecraftServer.memory={}M,resources.limits.cpu={},resources.limits.memory={}M",
                 (deploy_info.ram * 1024),
