@@ -5,22 +5,24 @@ use std::process::Command;
 
 #[derive(serde::Deserialize)]
 pub struct DeployInfo {
-    username: String,
-    cpu: u8,
-    ram: u8,
+    id: String,
+    cpu: u32,
+    ram: u32,
 }
 
 pub async fn deploy_chart(deploy_info: Json<DeployInfo>) -> impl Responder {
     match Command::new("helm")
         .args([
             "install",
-            &format!("minecraft-{}", deploy_info.username.to_lowercase()),
+            &format!("minecraft-{}", deploy_info.id.to_lowercase()),
             "mc-charts/minecraft",
+            "--namespace",
+            "hosting",
             "--set",
-            &format!("minecraftServer.eula=true,minecraftServer.Difficulty=hard,minecraftServer.memory={}G,resources.limits.cpu={},resources.limits.memory={}G",
-                deploy_info.ram,
+            &format!("minecraftServer.eula=true,minecraftServer.Difficulty=hard,minecraftServer.memory={}M,resources.limits.cpu={},resources.limits.memory={}M",
+                (deploy_info.ram * 1024),
                 deploy_info.cpu,
-                deploy_info.ram
+                (deploy_info.ram * 1024 + 200)
             ),
         ])
         .output()
