@@ -42,6 +42,8 @@ fn execute_command(id: &str, replica: u8) -> Output {
     Command::new("kubectl")
         .args([
             "patch",
+            "-n",
+            "hosting",
             "deployment",
             &format!("minecraft-{}", id.to_lowercase()),
             "-p",
@@ -55,6 +57,8 @@ pub async fn status(json: Json<ServerInfo>) -> impl Responder {
     let output = Command::new("kubectl")
         .args([
             "get",
+            "-n",
+            "hosting",
             "pods",
             "-l",
             &format!("app=minecraft-{}", json.id),
@@ -79,7 +83,7 @@ pub async fn status(json: Json<ServerInfo>) -> impl Responder {
         .unwrap();
 
     let output = Command::new("kubectl")
-        .args(["top", "pods", pod_str])
+        .args(["top", "-n", "hosting", "pods", pod_str])
         .output()
         .expect("Error al ejecutar el comando kubectl top");
 
